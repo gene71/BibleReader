@@ -113,4 +113,80 @@ public class DbAccess extends SQLiteOpenHelper {
         }
         return array_list;
     }
+
+    public ArrayList getOTBooks() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> array_list = new ArrayList<String>();
+        Cursor res = db.rawQuery( "SELECT DISTINCT BookName FROM scriptures Where BookNumber < 47;", null);
+        res.moveToFirst();
+        while(res.isAfterLast() == false) {
+            array_list.add(res.getString(res.getColumnIndex("BookName")));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+    public ArrayList getBooks(int i) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> array_list = new ArrayList<String>();
+        //get OTBooks
+        if(i == 1){
+            Cursor res = db.rawQuery( "SELECT DISTINCT BookName FROM scriptures Where BookNumber < 47;", null);
+            res.moveToFirst();
+            while(res.isAfterLast() == false) {
+                array_list.add(res.getString(res.getColumnIndex("BookName")));
+                res.moveToNext();
+            }
+        }
+
+        //get NTBooks
+        if(i == 2){
+            Cursor res = db.rawQuery( "SELECT DISTINCT BookName FROM scriptures Where BookNumber > 46;", null);
+            res.moveToFirst();
+            while(res.isAfterLast() == false) {
+                array_list.add(res.getString(res.getColumnIndex("BookName")));
+                res.moveToNext();
+            }
+        }
+
+
+        return array_list;
+    }
+
+    public String getOTBook(int i) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String OTBook = "Genesis";
+        Cursor res = db.rawQuery( "SELECT DISTINCT BookName FROM scriptures Where BookNumber = " + i + ";", null);
+        res.moveToFirst();
+        while(res.isAfterLast() == false) {
+            OTBook = res.getString(res.getColumnIndex("BookName"));
+            res.moveToNext();
+        }
+        return OTBook;
+    }
+
+//    public ArrayList getBookChapters(int i) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        ArrayList<Integer> array_list = new ArrayList<Integer>();
+//        Cursor res = db.rawQuery( "SELECT DISTINCT ChapterNumber FROM scriptures Where BookNumber = " + i + ";", null);
+//        res.moveToFirst();
+//        while(res.isAfterLast() == false) {
+//            array_list.add(res.getInt(res.getColumnIndex("ChapterNumber")));
+//            res.moveToNext();
+//        }
+//        return array_list;
+//    }
+
+    public ArrayList getBookChapters(String BookName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> array_list = new ArrayList<Integer>();
+        Cursor res = db.rawQuery( "SELECT DISTINCT ChapterNumber FROM scriptures Where BookName = '" + BookName + "';", null);
+        res.moveToFirst();
+        while(res.isAfterLast() == false) {
+            array_list.add(res.getInt(res.getColumnIndex("ChapterNumber")));
+            res.moveToNext();
+        }
+        return array_list;
+    }
 }
