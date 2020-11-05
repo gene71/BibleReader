@@ -7,5 +7,6 @@ import java.util.ArrayList;
 public class Settings {
     public static String BookName;
     public static int ChapterNumber;
+    public static String Query;
 
 }

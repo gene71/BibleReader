@@ -23,8 +23,14 @@
         android:label="@string/notes"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
-        android:id="@+id/nav_search"
+        android:id="@+id/nav_book_chapter"
         android:name="com.example.biblereader.ui.BookChapterFragment"
         android:label="Set Book and Chapter"
         tools:layout="@layout/fragment_book_chapter"/>
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.biblereader.ui.SearchFragment"
+        android:label="Set Book and Chapter"
+        tools:layout="@layout/fragment_search"/>
+
 </navigation>

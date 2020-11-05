@@ -189,4 +189,30 @@ public class DbAccess extends SQLiteOpenHelper {
         }
         return array_list;
     }
+
+    public ArrayList getQRes(String queryString) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> array_list = new ArrayList<>();
+        Cursor res = db.rawQuery( "SELECT BookName, ChapterNumber, VerseNumber, VerseText FROM scriptures Where VerseText LIKE '% " + queryString + "%';", null);
+        res.moveToFirst();
+        while(res.isAfterLast() == false) {
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(res.getString(res.getColumnIndex("BookName")));
+            sb.append(" ");
+            sb.append(res.getString(res.getColumnIndex("ChapterNumber")));
+            sb.append(":");
+            sb.append(res.getString(res.getColumnIndex("VerseNumber")));
+            sb.append(". ");
+            sb.append(res.getString(res.getColumnIndex("VerseText")));
+
+
+
+            array_list.add(sb.toString());
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+
 }
