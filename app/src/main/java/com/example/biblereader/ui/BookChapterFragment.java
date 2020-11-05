@@ -12,8 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.biblereader.R;
 import com.example.biblereader.data.DbAccess;
@@ -21,10 +19,10 @@ import com.example.biblereader.data.Settings;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
+ * Use the {@link BookChapterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class BookChapterFragment extends Fragment {
     Spinner spin;
 
 
@@ -37,7 +35,7 @@ public class SearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SearchFragment() {
+    public BookChapterFragment() {
         // Required empty public constructor
     }
 
@@ -50,8 +48,8 @@ public class SearchFragment extends Fragment {
      * @return A new instance of fragment SearchFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
+    public static BookChapterFragment newInstance(String param1, String param2) {
+        BookChapterFragment fragment = new BookChapterFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,7 +72,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        return inflater.inflate(R.layout.fragment_book_chapter, container, false);
     }
 
     @Override
@@ -109,16 +107,15 @@ public class SearchFragment extends Fragment {
                        setOTSpinner(1);
                        setOTChapter("Genesis"); //Genesis
                        Settings.BookName = "Genesis";
-                       Settings.ChapterNumber = 1;
                    }else{
                        cbNt.setChecked(true);
                        setOTSpinner(2);
                        setOTChapter("Mathew");//Mathew
                        Settings.BookName = "Mathew";
-                       Settings.ChapterNumber = 1;
                    }
+                   Settings.ChapterNumber = 1;
 
-                }
+               }
 
            });
 
@@ -158,6 +155,7 @@ public class SearchFragment extends Fragment {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, dbAccess.getBooks(range));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 
 
         try{
