@@ -6,16 +6,16 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/pls_txt"
-        android:orderInCategory="100"
-        android:title="+ Text"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/min_txt"
-        android:orderInCategory="100"
-        android:title="- Text"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/pls_txt"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="+ Text"-->
+<!--        app:showAsAction="never" />-->
+<!--    <item-->
+<!--        android:id="@+id/min_txt"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="- Text"-->
+<!--        app:showAsAction="never" />-->
 
     <item
         android:id="@+id/next_book"

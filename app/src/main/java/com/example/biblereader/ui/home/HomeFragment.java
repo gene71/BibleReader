@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment{
+
+    float mRatio = 1.0f;
+    int sizeInc = 20;
 
 
 
@@ -97,6 +101,8 @@ public class HomeFragment extends Fragment{
 
         });
 
+        registerForContextMenu(sv);
+
 
 
 
@@ -109,6 +115,39 @@ public class HomeFragment extends Fragment{
     }
 
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("SV Menu");
+        menu.add(0, v.getId(), 0, "+Text");
+        menu.add(0, v.getId(), 0, "-Text");
+    }
+
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == "+Text") {
+            // do your coding
+            TextView tv = (TextView) getView().findViewById(R.id.text_home);
+            sizeInc += 1;
+            tv.setTextSize(mRatio + sizeInc);
+
+            //Toast.makeText(getContext(),"Search selected", Toast.LENGTH_LONG).show();
+        }
+        if (item.getTitle() == "-Text") {
+            // do your coding
+            TextView tv = (TextView) getView().findViewById(R.id.text_home);
+            sizeInc -= 1;
+            tv.setTextSize(mRatio + sizeInc);
+
+            //Toast.makeText(getContext(),"Search selected", Toast.LENGTH_LONG).show();
+        }
+        else {
+            return  false;
+        }
+        return true;
+    }
 
 
 

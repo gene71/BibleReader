@@ -4,13 +4,16 @@ import android.app.FragmentTransaction;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.GestureDetector;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,7 +39,10 @@ import androidx.appcompat.widget.Toolbar;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static android.view.ContextMenu.*;
+
 public class MainActivity extends AppCompatActivity {
+
     float mRatio = 1.0f;
     int sizeInc = 20;
 
@@ -45,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private static final String DEBUG_TAG = "Gestures";
     private GestureDetectorCompat mDetector;
+    private ContextMenu cmenu;
+    private View v;
+    private ContextMenuInfo menuInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
     }
+
+
 
 
 
@@ -96,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
         Util u = new Util();
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.pls_txt:
-                //Toast.makeText(this, "clicked plus text", Toast.LENGTH_SHORT).show();
-                pls_Text();
-                return true;
-            case R.id.min_txt:
-                min_Text();
-                return true;
+//            case R.id.pls_txt:
+//                //Toast.makeText(this, "clicked plus text", Toast.LENGTH_SHORT).show();
+//                pls_Text();
+//                return true;
+//            case R.id.min_txt:
+//                min_Text();
+//                return true;
             case R.id.next_book:
                 Toast.makeText(this, "clicked next", Toast.LENGTH_SHORT).show();
                 return true;
@@ -136,13 +151,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
 
-    void pls_Text(){
+    public void pls_Text(){
         TextView tv = findViewById(R.id.text_home);
         sizeInc += 1;
         tv.setTextSize(mRatio + sizeInc);

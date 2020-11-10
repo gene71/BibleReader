@@ -1,11 +1,16 @@
 package com.example.biblereader.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +32,9 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
+    String book;
+    int chapter;
+    String bookChpMenu = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,6 +80,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_search, container, false);
 
     }
@@ -80,7 +89,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-
+            initContextMenu();
             doSearch(Settings.Query);
             initSearchBox();
 
@@ -124,17 +133,8 @@ public class SearchFragment extends Fragment {
     void doSearch(String queryString){
 
        ListView list = (ListView) getView().findViewById(R.id.listview1);
-        DbAccess dbAccess = new DbAccess(getContext());
+       DbAccess dbAccess = new DbAccess(getContext());
 
-
-
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add("JAVA");
-//        arrayList.add("ANDROID");
-//        arrayList.add("C Language");
-//        arrayList.add("CPP Language");
-//        arrayList.add("Go Language");
-//        arrayList.add("AVN SYSTEMS");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, dbAccess.getQRes(queryString));
         list.setAdapter(arrayAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -144,12 +144,55 @@ public class SearchFragment extends Fragment {
                 String[] sa = clickedItem.split("\\.");
                 String[] sa1 = sa[0].split(":");
                 String[] sa2 = sa1[0].split(" ");
-                Settings.BookName = sa2[0];
-                Settings.ChapterNumber = Integer.parseInt(sa2[1]);
+                book = sa2[0];//not surviving state need to fix
+                chapter = Integer.parseInt(sa2[1]);
 
-                Toast.makeText(getContext(),"Reader set to: Book: " + sa2[0] + "Chapter: " + sa2[1], Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getContext(),"Selected: " + sa2[0] + ":" + sa2[1], Toast.LENGTH_LONG).show();
             }
         });
 
     }
+
+    void initContextMenu(){
+        ListView list = (ListView) getView().findViewById(R.id.listview1);
+        registerForContextMenu(list);
+
+
+    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        bookChpMenu = "Set Bible: " + book + ":" + chapter;
+        menu.setHeaderTitle("Search Menu");
+        if(book != "" && book != null){
+            menu.add(0, v.getId(), 0, bookChpMenu);
+            menu.add(0, v.getId(), 0, "Add to Notes: " + book + ":" + chapter);
+        }else {
+
+            Toast.makeText(getContext(),"PLease Select a List Item", Toast.LENGTH_LONG).show();
+        }
+
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle() == bookChpMenu) {
+            // do your coding
+            //TODO: add check for nulls etc.
+            Settings.BookName = book;
+            Settings.ChapterNumber = chapter;
+
+            //Toast.makeText(getContext(),"Set Book " + book, Toast.LENGTH_LONG).show();
+        }
+        else if (item.getTitle() == "") {
+            // do your coding
+
+
+            //Toast.makeText(getContext(),"Set Book " + book, Toast.LENGTH_LONG).show();
+        }else{
+            return  false;
+        }
+        return true;
+    }
+
 }
